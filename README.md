@@ -25,9 +25,9 @@ You can install this tool on any computer. For 24/7 notifications I recommended 
 
 If you have any problems or questions feel free to create an issue.
 
-You have the following three options to install the scanner, ascending in complexity:
+You have the following four options to install the scanner, ascending in complexity:
 
-### Use prebuild Release
+### 1. Use prebuild Release
 
 This is the simplest but least flexible solution suitable for most operating systems.
 
@@ -38,7 +38,7 @@ This is the simplest but least flexible solution suitable for most operating sys
 
 You can run the scanner manually if you need it, add it to your system startup or create a service.
 
-### Run with Docker
+### 2. Run with Docker
 
 My prefered method for servers using the pre build multi-arch linux images available on [Docker Hub](https://hub.docker.com/r/derhenning/tgtg).
 
@@ -48,14 +48,14 @@ My prefered method for servers using the pre build multi-arch linux images avail
 
 The container creates a volume mounting ```\tokens``` where the app saves the TGTG credentials after login. These credentials will be reused on every start of the container to avoid the mail login process. To login with a different account you have to delete the created volume.
 
-### Install with pip
+### 3. Install with pip
 
 1. Install python >= 3.9 and pip
 2. Install scanner ```pip install tgtg-scanner```
 3. Create ```config.ini``` as described in the file ```config.template.ini```
 4. Run ```python -m tgtg_scanner```
 
-### Run from source
+### 4. Run from source
 
 Method for developers.
 
@@ -66,7 +66,7 @@ Method for developers.
 5. Create ```src/config.ini``` as described in the file ```config.template.ini```
 6. Run ```python src/scanner.py```
 
-### Running
+### TGTG Login
 
 When the scanner is started it will first try to login to your TGTG account. Similar to loging in to the TGTG app, you have to click on the link send to you by mail. This won't work on your mobile phone if you have installed the TGTG app, so you have to check your mailbox on PC.
 
@@ -112,24 +112,38 @@ Developing with VSCode you can open the project in the configured developement c
 
 ```make clean``` cleans up docker compose
 
+```make package``` builds pip package
+
 ### Helper functions
 
-```src/helper.py``` contains some usefull functions. Running ```python src/helper.py --help``` displays the available commands.
+```helper.py``` contains some usefull functions. Running ```python -m tgtg_scanner --help``` displays the available commands.
 
 ````
-Usage: helper.py command
-  commands:
-  - credentials:            displays your TGTG tokens
-  - favorites:              displays your favorite magic bags data
-  - find [lat] [lng] [rad]: displays items for position and radius
-  - add [item_id]:          adds [item_id] to your favorites
-  - delete all:             removes all your favorites
-  - delete [item_id]:       removes [item_id] from your favorites
+usage: tgtg_scanner [-h] [-v | -f | -c | -a ITEM_ID | -d ITEM_ID] [-s]
+
+        Runs TGTG Scanner. Use optional arguments for helper functions.
+        
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
+  -f, --favorites       returns all your favorites and exit
+  -c, --credentials     returns tgtg credentials and exit
+  -a ITEM_ID, --add ITEM_ID
+                        add ITEM_ID to favorites and exit
+  -d ITEM_ID, --delete ITEM_ID
+                        delete [all | ITEM_ID] from favorites and exit
+  -s, --short           only display item_ids
 ````
 
 ### Creating new notifiers
 
 Feel free to create and contribute new notifiers for other services and endpoints. You can use an existing notifier as template.
+
+Notifiers must extend the ```Notifier``` class and implement the ```_send(self, item: Item)``` function.
+
+Configuration checks should be placed in the ```_init(self)``` function, which is called on startup and only when the notifier is enabled.
+
+See ```tgtg_scanner\models\notifier.py``` for further documentation.
 
 ---
 If you want to support me, feel free to buy me a coffee.
