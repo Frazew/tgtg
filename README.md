@@ -48,14 +48,23 @@ My prefered method for servers using the pre build multi-arch linux images avail
 
 The container creates a volume mounting ```\tokens``` where the app saves the TGTG credentials after login. These credentials will be reused on every start of the container to avoid the mail login process. To login with a different account you have to delete the created volume.
 
+### Install with pip
+
+1. Install python >= 3.9 and pip
+2. Install scanner ```pip install tgtg-scanner```
+3. Create ```config.ini``` as described in the file ```config.template.ini```
+4. Run ```python -m tgtg_scanner```
+
 ### Run from source
 
 Method for developers.
 
-1. Install python and pip
-2. Run ```pip install -r requirements.txt```
-3. Create ```src/config.ini``` as described in the file ```config.template.ini```
-4. Run ```python src/scanner.py```
+1. Install python >= 3.9 and pip
+2. Clone repository ```git clone https://github.com/Der-Henning/tgtg.git```
+3. ```cd tgtg```
+4. Run ```pip install -r requirements.txt```
+5. Create ```src/config.ini``` as described in the file ```config.template.ini```
+6. Run ```python src/scanner.py```
 
 ### Running
 

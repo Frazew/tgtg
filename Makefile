@@ -5,17 +5,22 @@ install:
 	pip install -r requirements.dev.txt
 
 start:
-	python src/scanner.py
+	python -m tgtg_scanner
 
 bash:
 	docker-compose -f docker-compose.dev.yml build
 	docker-compose -f docker-compose.dev.yml run --rm bash
 
 executable:
-	pyinstaller scanner.spec
+	pyinstaller app.spec
 
 test:
-	python -m unittest discover -v -s ./src
+	python -m unittest discover -v
 
 clean:
 	docker-compose -f docker-compose.dev.yml down --remove-orphans
+
+package:
+	pip install -U build twine
+	python -m build
+	python -m twine upload dist/*
