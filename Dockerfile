@@ -15,6 +15,6 @@ COPY --chown=tgtg:tgtg requirements.txt /tmp/pip-tmp/
 RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
     && rm -rf /tmp/pip-tmp
 
-COPY --chown=tgtg:tgtg ./tgtg_scanner .
+COPY --chown=tgtg:tgtg ./tgtg_scanner ./tgtg_scanner
 
 CMD [ "python","-m","tgtg_scanner" ]
