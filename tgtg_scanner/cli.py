@@ -29,6 +29,7 @@ def welcome_message():
     print("©2021, Henning Merklinger")
     print("For documentation and support please visit https://github.com/Der-Henning/tgtg")
     print("")
+    sys.stdout.flush()
     # pylint: enable=W1401
 
 
@@ -57,6 +58,8 @@ def print_new_verion():
             print("")
     except Exception as err:
         print("Version check Error! - %s", err)
+    finally:
+        sys.stdout.flush()
 
 
 def start_scanner() -> NoReturn:
